@@ -1,16 +1,16 @@
 #-----------------------------------------------------------------------------
-# This file is part of the 'Simple-ZCU208-Example'. It is subject to
+# This file is part of the 'Simple-ZCU111-Example'. It is subject to
 # the license terms in the LICENSE.txt file found in the top-level directory
 # of this distribution and at:
 #    https://confluence.slac.stanford.edu/display/ppareg/LICENSE.html.
-# No part of the 'Simple-ZCU208-Example', including this file, may be
+# No part of the 'Simple-ZCU111-Example', including this file, may be
 # copied, modified, propagated, or distributed except according to the terms
 # contained in the LICENSE.txt file.
 #-----------------------------------------------------------------------------
 
 import pyrogue as pr
 
-import simple_zcu208_example                 as rfsoc
+import simple_zcu111_example                 as rfsoc
 import axi_soc_ultra_plus_core.rfsoc_utility as rfsoc_utility
 
 class Application(pr.Device):

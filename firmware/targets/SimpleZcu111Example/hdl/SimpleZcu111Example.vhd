@@ -31,25 +31,23 @@ entity SimpleZcu111Example is
       TPD_G        : time := 1 ns;
       BUILD_INFO_G : BuildInfoType);
    port (
-      -- LMK Ports
-      lmkSync   : out   sl := '0';
-      clkMuxSel : out   slv(1 downto 0);
-      i2c1Scl   : inout sl;
-      i2c1Sda   : inout sl;
+      -- LMK/LMX Ports
+      i2cScl  : inout slv(1 downto 0);
+      i2cSda  : inout slv(1 downto 0);
       -- RF DATA CONVERTER Ports
-      adcClkP   : in    sl;
-      adcClkN   : in    sl;
-      adcP      : in    slv(7 downto 0);
-      adcN      : in    slv(7 downto 0);
-      dacClkP   : in    sl;
-      dacClkN   : in    sl;
-      dacP      : out   slv(7 downto 0);
-      dacN      : out   slv(7 downto 0);
-      sysRefP   : in    sl;
-      sysRefN   : in    sl;
+      adcClkP : in    slv(3 downto 0);
+      adcClkN : in    slv(3 downto 0);
+      adcP    : in    slv(7 downto 0);
+      adcN    : in    slv(7 downto 0);
+      dacClkP : in    slv(1 downto 0);
+      dacClkN : in    slv(1 downto 0);
+      dacP    : out   slv(7 downto 0);
+      dacN    : out   slv(7 downto 0);
+      sysRefP : in    sl;
+      sysRefN : in    sl;
       -- SYSMON Ports
-      vPIn      : in    sl;
-      vNIn      : in    sl);
+      vPIn    : in    sl;
+      vNIn    : in    sl);
 end SimpleZcu111Example;
 
 architecture top_level of SimpleZcu111Example is
@@ -118,10 +116,10 @@ begin
    -----------------------
    U_Core : entity axi_soc_ultra_plus_core.AxiSocUltraPlusCore
       generic map (
-         TPD_G              => TPD_G,
-         BUILD_INFO_G       => BUILD_INFO_G,
-         EXT_AXIL_MASTER_G  => false,
-         DMA_SIZE_G         => DMA_SIZE_C)
+         TPD_G             => TPD_G,
+         BUILD_INFO_G      => BUILD_INFO_G,
+         EXT_AXIL_MASTER_G => false,
+         DMA_SIZE_G        => DMA_SIZE_C)
       port map (
          ------------------------
          --  Top Level Interfaces
@@ -182,9 +180,8 @@ begin
          --       Ports
          --------------------------
          -- LMK Ports
-         clkMuxSel       => clkMuxSel,
-         i2c1Scl         => i2c1Scl,
-         i2c1Sda         => i2c1Sda,
+         i2cScl          => i2cScl,
+         i2cSda          => i2cSda,
          --------------------------
          --       Interfaces
          --------------------------

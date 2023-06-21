@@ -9,7 +9,7 @@ loadRuckusTcl $::env(TOP_DIR)/submodules/axi-soc-ultra-plus-core/hardware/Xilinx
 loadSource -dir  "$::DIR_PATH/rtl"
 
 # Load IP cores
-# loadIpCore -dir "$::DIR_PATH/ip"
+loadIpCore -dir "$::DIR_PATH/ip"
 
 # Updating the impl_1 strategy
 set_property strategy Performance_ExplorePostRoutePhysOpt [get_runs impl_1]

@@ -1,9 +1,9 @@
 #-----------------------------------------------------------------------------
-# This file is part of the 'Simple-ZCU208-Example'. It is subject to
+# This file is part of the 'Simple-ZCU111-Example'. It is subject to
 # the license terms in the LICENSE.txt file found in the top-level directory
 # of this distribution and at:
 #    https://confluence.slac.stanford.edu/display/ppareg/LICENSE.html.
-# No part of the 'Simple-ZCU208-Example', including this file, may be
+# No part of the 'Simple-ZCU111-Example', including this file, may be
 # copied, modified, propagated, or distributed except according to the terms
 # contained in the LICENSE.txt file.
 #-----------------------------------------------------------------------------
@@ -21,7 +21,7 @@ import pyrogue.protocols
 import pyrogue.utilities.fileio
 import pyrogue.utilities.prbs
 
-import simple_zcu208_example                 as rfsoc
+import simple_zcu111_example                 as rfsoc
 import axi_soc_ultra_plus_core.rfsoc_utility as rfsoc_utility
 import axi_soc_ultra_plus_core as soc_core
 
@@ -33,6 +33,7 @@ class Root(pr.Root):
                  top_level   = '',
                  defaultFile = '',
                  lmkConfig   = 'config/lmk/HexRegisterValues.txt',
+                 lmxConfig   = 'config/lmx/HexRegisterValues.txt',
                  **kwargs):
 
         # Pass custom value to parent via super function
@@ -43,9 +44,11 @@ class Root(pr.Root):
         if self.top_level != '':
             self.defaultFile = f'{top_level}/{defaultFile}'
             self.lmkConfig   = f'{top_level}/{lmkConfig}'
+            self.lmxConfig   = f'{top_level}/{lmxConfig}'
         else:
             self.defaultFile = defaultFile
             self.lmkConfig   = lmkConfig
+            self.lmxConfig   = lmxConfig
 
         # File writer
         self.dataWriter = pr.utilities.fileio.StreamWriter()
@@ -116,7 +119,7 @@ class Root(pr.Root):
         self.ReadAll()
 
         # Initialize the LMK/LMX Clock chips
-        self.RFSoC.Hardware.InitClock(lmkConfig=self.lmkConfig)
+        self.Hardware.InitClock(lmkConfig=self.lmkConfig,lmxConfig=[self.lmxConfig])
 
         # Initialize the RF Data Converter
         self.RFSoC.RfDataConverter.Init()
