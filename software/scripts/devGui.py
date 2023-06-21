@@ -57,7 +57,6 @@ if __name__ == "__main__":
         "--defaultFile",
         type     = str,
         required = False,
-        # default  = None,
         default  = 'config/defaults.yml',
         help     = "Sets the default YAML configuration file to be loaded at the root.start()",
     )

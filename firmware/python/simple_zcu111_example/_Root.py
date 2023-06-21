@@ -29,7 +29,7 @@ rogue.Version.minVersion('5.18.4')
 
 class Root(pr.Root):
     def __init__(self,
-                 ip          = '10.0.0.200', # ETH Host Name (or IP address)
+                 ip          = '10.0.0.10', # ETH Host Name (or IP address)
                  top_level   = '',
                  defaultFile = '',
                  lmkConfig   = 'config/lmk/HexRegisterValues.txt',

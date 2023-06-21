@@ -1,4 +1,4 @@
-# Simple-ZCU208-Example
+# Simple-ZCU111-Example
 
 <!--- ######################################################## -->
 
@@ -11,7 +11,7 @@ https://confluence.slac.stanford.edu/x/vJmDFg
 # Clone the GIT repository
 
 ```bash
-$ git clone --recursive git@github.com:slaclab/Simple-ZCU208-Example
+$ git clone --recursive git@github.com:slaclab/Simple-ZCU111-Example
 ```
 
 <!--- ######################################################## -->
@@ -21,13 +21,13 @@ $ git clone --recursive git@github.com:slaclab/Simple-ZCU208-Example
 1) Setup Xilinx PATH and licensing (if on SLAC AFS network) else requires Vivado install and licensing on your local machine
 
 ```bash
-$ source Simple-ZCU208-Example/firmware/vivado_setup.sh
+$ source Simple-ZCU111-Example/firmware/vivado_setup.sh
 ```
 
 2) Go to the target directory and make the firmware:
 
 ```bash
-$ cd Simple-ZCU208-Example/firmware/targets/SimpleZcu208Example/
+$ cd Simple-ZCU111-Example/firmware/targets/SimpleZcu111Example/
 $ make
 ```
 
@@ -37,15 +37,15 @@ $ make
 $ make gui
 ```
 
-The .bit and .XSA files are dumped into the SimpleZcu208Example/image directory:
+The .bit and .XSA files are dumped into the SimpleZcu111Example/image directory:
 
 ```bash
-$ ls -lath SimpleZcu208Example/images/
+$ ls -lath SimpleZcu111Example/images/
 total 47M
 drwxr-xr-x 5 ruckman re 2.0K Feb  7 07:13 ..
 drwxr-xr-x 2 ruckman re 2.0K Feb  4 21:15 .
--rw-r--r-- 1 ruckman re  14M Feb  4 21:15 SimpleZcu208Example-0x01000000-20220204204648-ruckman-90df89c.xsa
--rw-r--r-- 1 ruckman re  33M Feb  4 21:14 SimpleZcu208Example-0x01000000-20220204204648-ruckman-90df89c.bit
+-rw-r--r-- 1 ruckman re  14M Feb  4 21:15 SimpleZcu111Example-0x01000000-20220204204648-ruckman-90df89c.xsa
+-rw-r--r-- 1 ruckman re  33M Feb  4 21:14 SimpleZcu111Example-0x01000000-20220204204648-ruckman-90df89c.bit
 ```
 
 <!--- ######################################################## -->
@@ -58,15 +58,15 @@ drwxr-xr-x 2 ruckman re 2.0K Feb  4 21:15 .
 
 ```bash
 # These setup scripts assume that you are on SLAC network
-$ source Simple-ZCU208-Example/firmware/vivado_setup.sh
+$ source Simple-ZCU111-Example/firmware/vivado_setup.sh
 $ source /path/to/petalinux/2022.2/settings.sh
 ```
 
 3) Go to the target directory and run the `CreatePetalinuxProject.sh` script with arg pointing to path of .XSA file:
 
 ```bash
-$ cd Simple-ZCU208-Example/firmware/targets/SimpleZcu208Example/
-$ source CreatePetalinuxProject.sh images/SimpleZcu208Example-0x01000000-20220204204648-ruckman-90df89c.xsa
+$ cd Simple-ZCU111-Example/firmware/targets/SimpleZcu111Example/
+$ source CreatePetalinuxProject.sh images/SimpleZcu111Example-0x01000000-20220204204648-ruckman-90df89c.xsa
 ```
 
 <!--- ######################################################## -->
@@ -85,10 +85,10 @@ Note: Assumes SD memory FAT32 is `/dev/sde1` in instructions below
 ```bash
 sudo mkdir -p boot
 sudo mount /dev/sde1 boot
-sudo cp Simple-ZCU208-Example/firmware/build/petalinux/SimpleZcu208Example/images/linux/system.bit boot/.
-sudo cp Simple-ZCU208-Example/firmware/build/petalinux/SimpleZcu208Example/images/linux/BOOT.BIN   boot/.
-sudo cp Simple-ZCU208-Example/firmware/build/petalinux/SimpleZcu208Example/images/linux/image.ub   boot/.
-sudo cp Simple-ZCU208-Example/firmware/build/petalinux/SimpleZcu208Example/images/linux/boot.scr   boot/.
+sudo cp Simple-ZCU111-Example/firmware/build/petalinux/SimpleZcu111Example/images/linux/system.bit boot/.
+sudo cp Simple-ZCU111-Example/firmware/build/petalinux/SimpleZcu111Example/images/linux/BOOT.BIN   boot/.
+sudo cp Simple-ZCU111-Example/firmware/build/petalinux/SimpleZcu111Example/images/linux/image.ub   boot/.
+sudo cp Simple-ZCU111-Example/firmware/build/petalinux/SimpleZcu111Example/images/linux/boot.scr   boot/.
 sudo sync boot/
 sudo umount boot
 ```
@@ -111,7 +111,7 @@ sudo umount boot
 
 ```bash
 ssh-keygen -f "$HOME/.ssh/known_hosts" -R "10.0.0.10" # https://jira.slac.stanford.edu/browse/ESRFOC-54
-scp SimpleZcu208Example-0x01000000-20220204204648-ruckman-90df89c.bit root@10.0.0.10:/boot/system.bit
+scp SimpleZcu111Example-0x01000000-20220204204648-ruckman-90df89c.bit root@10.0.0.10:/boot/system.bit
 ```
 
 2) Send a "sync" and "reboot" command to the RFSoC to load new firmware:  Here's an example:
@@ -135,13 +135,13 @@ ssh root@10.0.0.10 '/bin/sync; /sbin/reboot'
 1) Setup the rogue environment (if on SLAC AFS network) else install rogue (recommend Anaconda method) on your local machine
 
 ```bash
-$ source Simple-ZCU208-Example/software/setup_env_slac.sh
+$ source Simple-ZCU111-Example/software/setup_env_slac.sh
 ```
 
 2) Go to software directory and lauch the GUI:
 
 ```bash
-$ cd Simple-ZCU208-Example/software
+$ cd Simple-ZCU111-Example/software
 $ python scripts/devGui.py --ip 10.0.0.10
 ```
 
