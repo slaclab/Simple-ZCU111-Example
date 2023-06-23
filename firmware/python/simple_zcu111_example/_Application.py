@@ -32,3 +32,13 @@ class Application(pr.Device):
             smplPerCycle = 16, # Must match SAMPLE_PER_CYCLE_G config
             expand       = True,
         ))
+
+        self.add(rfsoc_utility.SigGenLoader(
+            name         = 'DacSigGenLoader',
+            DacSigGen    = self.DacSigGen,
+            numCh        = 8,  # Must match NUM_CH_G config
+            ramWidth     = 10, # Must match RAM_ADDR_WIDTH_G config
+            smplPerCycle = 16, # Must match SAMPLE_PER_CYCLE_G config
+            sampleRate   = 4.0E+9, # Units of Hz
+            expand       = True,
+        ))
