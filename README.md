@@ -95,7 +95,7 @@ sudo umount boot
 
 3) Power down the RFSoC board
 
-4) Confirm the Mode SW2 [4:1] = 1110 (Mode Pins [3:0]). Note: Switch OFF = 1 = High; ON = 0 = Low.
+4) Confirm the Mode SW6 [4:1] = 1110 (Mode Pins [3:0]). Note: Switch OFF = 1 = High; ON = 0 = Low.
 
 5) Power up the RFSoC board
 
