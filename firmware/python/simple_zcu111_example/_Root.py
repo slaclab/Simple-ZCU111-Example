@@ -38,7 +38,7 @@ class Root(pr.Root):
             **kwargs):
 
         # Pass custom value to parent via super function
-        super().__init__(**kwargs)
+        super().__init__(timeout=5.0,**kwargs)
 
         #################################################################
         if zmqSrvEn:
