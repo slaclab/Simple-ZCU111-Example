@@ -32,8 +32,7 @@ if __name__ == "__main__":
     parser.add_argument(
         "--ip",
         type     = str,
-        required = False,
-        default  = '10.0.0.10',
+        required = True,
         help     = "ETH Host Name (or IP address)",
     )
 
@@ -64,9 +63,6 @@ if __name__ == "__main__":
     # Get the arguments
     args = parser.parse_args()
 
-    top_level = os.path.realpath(__file__).split('software')[0]
-    ui = top_level+'firmware/submodules/axi-soc-ultra-plus-core/python/axi_soc_ultra_plus_core/rfsoc_utility/gui/GuiTop.py'
-
     #################################################################
 
     with simple_zcu111_example.Root(
@@ -77,10 +73,10 @@ if __name__ == "__main__":
     ) as root:
         axi_soc_ultra_plus_core.rfsoc_utility.pydm.runPyDM(
             serverList = root.zmqServer.address,
-            ui         = ui,
-            sizeX      = 800,
-            sizeY      = 800,
-            numAdcCh   = 8,
-            numDacCh   = 8,
+            ui       = f'{os.path.dirname(axi_soc_ultra_plus_core.rfsoc_utility.__file__)}/gui/GuiTop.py',
+            sizeX    = 800,
+            sizeY    = 800,
+            numAdcCh = 8,
+            numDacCh = 8,
         )
     #################################################################
