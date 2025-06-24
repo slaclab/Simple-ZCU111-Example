@@ -147,33 +147,57 @@ architecture mapping of RfDataConverter is
          m00_axis_tdata  : out std_logic_vector(127 downto 0);
          m00_axis_tvalid : out std_logic;
          m00_axis_tready : in  std_logic;
+         m01_axis_tdata  : out std_logic_vector(127 downto 0);
+         m01_axis_tvalid : out std_logic;
+         m01_axis_tready : in  std_logic;
          m02_axis_tdata  : out std_logic_vector(127 downto 0);
          m02_axis_tvalid : out std_logic;
          m02_axis_tready : in  std_logic;
+         m03_axis_tdata  : out std_logic_vector(127 downto 0);
+         m03_axis_tvalid : out std_logic;
+         m03_axis_tready : in  std_logic;
          m1_axis_aresetn : in  std_logic;
          m1_axis_aclk    : in  std_logic;
          m10_axis_tdata  : out std_logic_vector(127 downto 0);
          m10_axis_tvalid : out std_logic;
          m10_axis_tready : in  std_logic;
+         m11_axis_tdata  : out std_logic_vector(127 downto 0);
+         m11_axis_tvalid : out std_logic;
+         m11_axis_tready : in  std_logic;
          m12_axis_tdata  : out std_logic_vector(127 downto 0);
          m12_axis_tvalid : out std_logic;
          m12_axis_tready : in  std_logic;
+         m13_axis_tdata  : out std_logic_vector(127 downto 0);
+         m13_axis_tvalid : out std_logic;
+         m13_axis_tready : in  std_logic;
          m2_axis_aresetn : in  std_logic;
          m2_axis_aclk    : in  std_logic;
          m20_axis_tdata  : out std_logic_vector(127 downto 0);
          m20_axis_tvalid : out std_logic;
          m20_axis_tready : in  std_logic;
+         m21_axis_tdata  : out std_logic_vector(127 downto 0);
+         m21_axis_tvalid : out std_logic;
+         m21_axis_tready : in  std_logic;
          m22_axis_tdata  : out std_logic_vector(127 downto 0);
          m22_axis_tvalid : out std_logic;
          m22_axis_tready : in  std_logic;
+         m23_axis_tdata  : out std_logic_vector(127 downto 0);
+         m23_axis_tvalid : out std_logic;
+         m23_axis_tready : in  std_logic;
          m3_axis_aresetn : in  std_logic;
          m3_axis_aclk    : in  std_logic;
          m30_axis_tdata  : out std_logic_vector(127 downto 0);
          m30_axis_tvalid : out std_logic;
          m30_axis_tready : in  std_logic;
+         m31_axis_tdata  : out std_logic_vector(127 downto 0);
+         m31_axis_tvalid : out std_logic;
+         m31_axis_tready : in  std_logic;
          m32_axis_tdata  : out std_logic_vector(127 downto 0);
          m32_axis_tvalid : out std_logic;
          m32_axis_tready : in  std_logic;
+         m33_axis_tdata  : out std_logic_vector(127 downto 0);
+         m33_axis_tvalid : out std_logic;
+         m33_axis_tready : in  std_logic;
          s0_axis_aresetn : in  std_logic;
          s0_axis_aclk    : in  std_logic;
          s00_axis_tdata  : in  std_logic_vector(255 downto 0);
@@ -205,19 +229,12 @@ architecture mapping of RfDataConverter is
          );
    end component;
 
-   signal rfdcAdc   : Slv128Array(7 downto 0) := (others => (others => '0'));
-   signal rfdcValid : slv(7 downto 0)         := (others => '0');
-   signal rfdcDac   : Slv256Array(7 downto 0) := (others => (others => '0'));
-
-   signal adc      : Slv128Array(7 downto 0) := (others => (others => '0'));
-   signal adcValid : slv(7 downto 0)         := (others => '0');
+   signal adcI  : Slv128Array(7 downto 0) := (others => (others => '0'));
+   signal adcQ  : Slv128Array(7 downto 0) := (others => (others => '0'));
+   signal dacIQ : Slv256Array(7 downto 0) := (others => (others => '0'));
 
    signal refClk   : sl := '0';
    signal axilRstL : sl := '0';
-
-   signal rfdcClk  : sl := '0';
-   signal rfdcRst  : sl := '1';
-   signal rfdcRstL : sl := '0';
 
    signal dspClock  : sl := '0';
    signal dspReset  : sl := '1';
@@ -239,7 +256,7 @@ begin
       generic map (
          TPD_G => TPD_G)
       port map (
-         clk     => rfdcClk,
+         clk     => dspClock,
          dataIn  => plSysRefRaw,
          dataOut => adcSysRef);
 
@@ -326,69 +343,93 @@ begin
          vout13_p        => dacP(7),
          vout13_n        => dacN(7),
          -- ADC[1:0] AXI Stream Interface
-         m0_axis_aresetn => rfdcRstL,
-         m0_axis_aclk    => rfdcClk,
-         m00_axis_tdata  => rfdcAdc(0),
-         m00_axis_tvalid => rfdcValid(0),
+         m0_axis_aresetn => dspResetL,
+         m0_axis_aclk    => dspClock,
+         m00_axis_tdata  => adcI(0),
+         m00_axis_tvalid => open,
          m00_axis_tready => '1',
-         m02_axis_tdata  => rfdcAdc(1),
-         m02_axis_tvalid => rfdcValid(1),
+         m01_axis_tdata  => adcQ(0),
+         m01_axis_tvalid => open,
+         m01_axis_tready => '1',
+         m02_axis_tdata  => adcI(1),
+         m02_axis_tvalid => open,
          m02_axis_tready => '1',
+         m03_axis_tdata  => adcQ(1),
+         m03_axis_tvalid => open,
+         m03_axis_tready => '1',
          -- ADC[3:2] AXI Stream Interface
-         m1_axis_aresetn => rfdcRstL,
-         m1_axis_aclk    => rfdcClk,
-         m10_axis_tdata  => rfdcAdc(2),
-         m10_axis_tvalid => rfdcValid(2),
+         m1_axis_aresetn => dspResetL,
+         m1_axis_aclk    => dspClock,
+         m10_axis_tdata  => adcI(2),
+         m10_axis_tvalid => open,
          m10_axis_tready => '1',
-         m12_axis_tdata  => rfdcAdc(3),
-         m12_axis_tvalid => rfdcValid(3),
+         m11_axis_tdata  => adcQ(2),
+         m11_axis_tvalid => open,
+         m11_axis_tready => '1',
+         m12_axis_tdata  => adcI(3),
+         m12_axis_tvalid => open,
          m12_axis_tready => '1',
+         m13_axis_tdata  => adcQ(3),
+         m13_axis_tvalid => open,
+         m13_axis_tready => '1',
          -- ADC[5:4] AXI Stream Interface
-         m2_axis_aresetn => rfdcRstL,
-         m2_axis_aclk    => rfdcClk,
-         m20_axis_tdata  => rfdcAdc(4),
-         m20_axis_tvalid => rfdcValid(4),
+         m2_axis_aresetn => dspResetL,
+         m2_axis_aclk    => dspClock,
+         m20_axis_tdata  => adcI(4),
+         m20_axis_tvalid => open,
          m20_axis_tready => '1',
-         m22_axis_tdata  => rfdcAdc(5),
-         m22_axis_tvalid => rfdcValid(5),
+         m21_axis_tdata  => adcQ(4),
+         m21_axis_tvalid => open,
+         m21_axis_tready => '1',
+         m22_axis_tdata  => adcI(5),
+         m22_axis_tvalid => open,
          m22_axis_tready => '1',
+         m23_axis_tdata  => adcQ(5),
+         m23_axis_tvalid => open,
+         m23_axis_tready => '1',
          -- ADC[7:6] AXI Stream Interface
-         m3_axis_aresetn => rfdcRstL,
-         m3_axis_aclk    => rfdcClk,
-         m30_axis_tdata  => rfdcAdc(6),
-         m30_axis_tvalid => rfdcValid(6),
+         m3_axis_aresetn => dspResetL,
+         m3_axis_aclk    => dspClock,
+         m30_axis_tdata  => adcI(6),
+         m30_axis_tvalid => open,
          m30_axis_tready => '1',
-         m32_axis_tdata  => rfdcAdc(7),
-         m32_axis_tvalid => rfdcValid(7),
+         m31_axis_tdata  => adcQ(6),
+         m31_axis_tvalid => open,
+         m31_axis_tready => '1',
+         m32_axis_tdata  => adcI(7),
+         m32_axis_tvalid => open,
          m32_axis_tready => '1',
+         m33_axis_tdata  => adcQ(7),
+         m33_axis_tvalid => open,
+         m33_axis_tready => '1',
          -- DAC[3:0] AXI Stream Interface
          s0_axis_aresetn => dspResetL,
          s0_axis_aclk    => dspClock,
-         s00_axis_tdata  => rfdcDac(0),
+         s00_axis_tdata  => dacIQ(0),
          s00_axis_tvalid => '1',
          s00_axis_tready => open,
-         s01_axis_tdata  => rfdcDac(1),
+         s01_axis_tdata  => dacIQ(1),
          s01_axis_tvalid => '1',
          s01_axis_tready => open,
-         s02_axis_tdata  => rfdcDac(2),
+         s02_axis_tdata  => dacIQ(2),
          s02_axis_tvalid => '1',
          s02_axis_tready => open,
-         s03_axis_tdata  => rfdcDac(3),
+         s03_axis_tdata  => dacIQ(3),
          s03_axis_tvalid => '1',
          s03_axis_tready => open,
          -- DAC[7:4] AXI Stream Interface
          s1_axis_aresetn => dspResetL,
          s1_axis_aclk    => dspClock,
-         s10_axis_tdata  => rfdcDac(4),
+         s10_axis_tdata  => dacIQ(4),
          s10_axis_tvalid => '1',
          s10_axis_tready => open,
-         s11_axis_tdata  => rfdcDac(5),
+         s11_axis_tdata  => dacIQ(5),
          s11_axis_tvalid => '1',
          s11_axis_tready => open,
-         s12_axis_tdata  => rfdcDac(6),
+         s12_axis_tdata  => dacIQ(6),
          s12_axis_tvalid => '1',
          s12_axis_tready => open,
-         s13_axis_tdata  => rfdcDac(7),
+         s13_axis_tdata  => dacIQ(7),
          s13_axis_tvalid => '1',
          s13_axis_tready => open);
 
@@ -417,47 +458,37 @@ begin
          clkIn     => refClk,
          rstIn     => axilRst,
          -- Clock Outputs
-         clkOut(0) => rfdcClk,
+         clkOut(0) => open,
          clkOut(1) => dspClock,
          -- Reset Outputs
-         rstOut(0) => rfdcRst,
+         rstOut(0) => open,
          rstOut(1) => dspReset);
 
    axilRstL  <= not(axilRst);
-   rfdcRstL  <= not(rfdcRst);
    dspResetL <= not(dspReset);
 
    dspClk <= dspClock;
    dspRst <= dspReset;
 
-   process(rfdcClk)
+   process(dspClock)
    begin
-      -- Help with making timing
-      if rising_edge(rfdcClk) then
-         adc      <= rfdcAdc   after TPD_G;
-         adcValid <= rfdcValid after TPD_G;
+      -- Help with making timing and interleave the I/Q values
+      if rising_edge(dspClock) then
+         for i in 0 to 7 loop
+            for j in 0 to 7 loop
+               dspAdc(i)(15+32*j downto 32*j+0)  <= adcI(i)(15+16*j downto 16*j) after TPD_G;
+               dspAdc(i)(31+32*j downto 32*j+16) <= adcQ(i)(15+16*j downto 16*j) after TPD_G;
+            end loop;
+         end loop;
       end if;
    end process;
 
    process(dspClock)
    begin
-      -- Help with making timing
+      -- Help with making timing (already I/Q interleaved)
       if rising_edge(dspClock) then
-         rfdcDac <= dspDac after TPD_G;
+         dacIQ <= dspDac after TPD_G;
       end if;
    end process;
-
-   U_Gearbox : entity axi_soc_ultra_plus_core.Ssr8ToSsr16Gearbox
-      generic map (
-         TPD_G    => TPD_G,
-         NUM_CH_G => 8)
-      port map (
-         -- Slave Interface
-         wrClk  => rfdcClk,
-         wrData => adc,
-         -- Master Interface
-         rdClk  => dspClock,
-         rdRst  => dspReset,
-         rdData => dspAdc);
 
 end mapping;
