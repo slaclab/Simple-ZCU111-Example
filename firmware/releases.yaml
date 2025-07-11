@@ -10,24 +10,11 @@
 
 GitBase: ..
 
-TopRoguePackage: simple_zcu111_example
-
-RoguePackages:
-  - submodules/surf/python
-  - submodules/axi-soc-ultra-plus-core/python
-  - python     
-
-# RogueConfig:
-  # - ../software/config
-
-# RogueScripts:
-  # - ../software/scripts/devGui
-
 Targets:
   SimpleZcu111Example:
     ImageDir: targets/SimpleZcu111Example/images
     Extensions:
-      - petalinux.tar.gz
+      - linux.tar.gz
 
 Releases:
   all:
@@ -35,4 +22,4 @@ Releases:
     Targets:
       - SimpleZcu111Example
     Types:
-      - petalinux
+      - Yocto
