@@ -55,3 +55,6 @@ bin*
 *.bif
 *.elf
 *.dcp
+
+# Sphinx docs build environment
+.venv-docs/
