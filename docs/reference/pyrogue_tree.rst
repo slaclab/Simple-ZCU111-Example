@@ -18,7 +18,7 @@ Hierarchy
     see :repo:`firmware/python/simple_zcu111_example/_RFSoC.py`)
 
     * ``AxiSocCore`` (offset ``0x0000_0000``, platform core)
-    * ``Hardware`` (offset ``0x8000_0000``, ``xilinxZcu111.Hardware`` —
+    * ``Hardware`` (offset ``0x8000_0000``, ``xilinxZcu111.Hardware``,
       LMK/LMX I2C clock control)
     * ``Application`` (offset ``0xA000_0000``,
       see :repo:`firmware/python/simple_zcu111_example/_Application.py`)
@@ -66,7 +66,7 @@ following ordered sequence after the base ``pr.Root.start()`` runs:
 3. User-logic reset (``RFSoC.AxiSocCore.UserRst()``).
 4. LMK/LMX clock chip initialization (``RFSoC.Hardware.InitClock``).
 5. DSP-clock-stable wait (``RFSoC.AxiSocCore.DspRstWait()``).
-6. Application enable (``RFSoC.Application.enable.set(True)``) — only after
+6. Application enable (``RFSoC.Application.enable.set(True)``), only after
    the DSP clock is stable.
 7. RFDC initialization and MTS sync (``Rfdc.Init()`` and ``Rfdc.Mts.*``).
 8. Default YAML configuration load (``LoadConfig``).
@@ -76,8 +76,8 @@ The ``Application`` device is constructed with ``enabled=False`` and is
 deliberately enabled only after step 5. Bypassing this order leaves the
 application reading registers in an unknown clock state.
 
-For platform-level PyRogue patterns — the ``AxiSocCore`` interface, the
-``Rfdc`` API, and the host-side ``RingBufferProcessor`` stream pipeline — see
+For platform-level PyRogue patterns (the ``AxiSocCore`` interface, the
+``Rfdc`` API, and the host-side ``RingBufferProcessor`` stream pipeline), see
 :hub:`reference/pyrogue_api.html`.
 
 Public package surface

@@ -104,7 +104,7 @@ Startup discipline
 ------------------
 
 The application's PyRogue ``Application`` device is instantiated with
-``enabled=False`` and is only enabled after the ``dspClk`` is stable.
+``enabled=False`` and is only enabled after ``dspClk`` is stable.
 The ``Root.start()`` method enforces the order: user-logic reset,
 clock chip initialization, DSP-reset wait, application enable, RFDC
 initialization and MTS sync, YAML config load, and finally the
