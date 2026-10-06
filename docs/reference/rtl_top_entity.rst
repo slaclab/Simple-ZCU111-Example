@@ -11,7 +11,7 @@ Entity surface
 The entity is the top FPGA target loaded by the Processing System at boot. It
 maps physical board I/O to internal AXI buses and three clock domains:
 
-* **LMK/LMX I2C ports:** ``i2cScl`` and ``i2cSda`` (2-bit each) for the
+* **LMK/LMX I2C ports:** ``i2cScl`` and ``i2cSda`` (2 bits each) for the
   on-board clock synthesizer chips.
 * **RF data converter ports:** ADC differential clock and data
   (``adcClkP/N`` 4-bit, ``adcP/N`` 8-bit); DAC differential clock and data
@@ -58,12 +58,12 @@ Clock domains
      - Role
    * - ``axilClk``
      - 100 MHz
-     - Register access (PS-facing AXI-Lite); also drives ``auxClk`` /
+     - Register access (PS-facing AXI-Lite); also drives the ``auxClk`` /
        ``appClk`` inputs of the platform core.
    * - ``dspClk``
      - DSP rate
      - DSP / DAC sample bus (``Slv256Array``, 16 samples per cycle).
-       Generated from ``plClk`` PLL inside ``RfDataConverter``.
+       Generated from the ``plClk`` PLL inside ``RfDataConverter``.
    * - ``adcClock``
      - ADC sample rate
      - RFDC ADC output clock. Generated from the second RFDC PLL output.
